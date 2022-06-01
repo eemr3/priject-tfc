@@ -1,4 +1,4 @@
-export default class CustonError extends Error {
+export default class BaseError extends Error {
   status: number;
 
   constructor(status: number, message: string) {
