@@ -11,7 +11,7 @@ class Routes {
   login(app: express.Application) {
     app.post(
       '/login',
-      (req, res, next) => this._validate.validate(req, res, next, this._joiSchemas.user),
+      (req, res, next) => this._validate.validate(req, res, next, this._joiSchemas.login),
       (req, res) => this._controller.loginApp(req, res),
     );
   }
