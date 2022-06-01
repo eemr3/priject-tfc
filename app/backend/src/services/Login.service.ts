@@ -1,18 +1,34 @@
-import CustonError from '../utils/errroF';
+import { compare } from 'bcrypt';
+import Token from '../auth/token';
+import BaseError from '../utils/errorBase';
 import User from '../database/models/user';
+import TUser from './type.login';
 
 class Login {
-  private user: object | null;
+  private user: TUser | null;
+  private _token = new Token();
 
-  async getLogin(email: string, password : string) {
-    this.user = await User.findOne({
-      where: { email, password },
-      attributes: { exclude: ['password'] },
-    });
-    if (!this.user) {
-      throw new CustonError(401, 'Incorrect email or password');
+  async getLogin(userEmail: string, password: string) {
+    this.user = await User.findOne({ where: { email: userEmail } });
+
+    if (!this.user) throw new BaseError(401, 'Incorrect email or password');
+
+    const psdCompare = await compare(password, this.user.password);
+
+    if (!psdCompare) {
+      throw new BaseError(401, 'Incorrect email or password');
     }
-    return this.user;
+
+    const { id, username, email, role } = this.user;
+    const token = this._token.createToken({ id, username, role, email });
+    return { user: {
+      id,
+      username,
+      role,
+      email,
+    },
+    token,
+    };
   }
 }
 
