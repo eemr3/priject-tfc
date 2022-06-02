@@ -15,6 +15,7 @@ class Token {
 
   decoderToken(token: string) {
     try {
+      this.secretKey = readFileSync('./jwt.evaluation.key', { encoding: 'utf-8' });
       const decoder = verify(token, this.secretKey);
       return decoder;
     } catch (error) {
