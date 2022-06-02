@@ -20,6 +20,7 @@ class Login {
     }
 
     const { id, username, email, role } = this.user;
+
     const token = this._token.createToken({ id, username, role, email });
     return { user: {
       id,
@@ -29,6 +30,13 @@ class Login {
     },
     token,
     };
+  }
+
+  async validateLogin(id:number) {
+    this.user = await User.findOne({ where: { id } });
+    if (!this.user) throw new BaseError(400, 'User not found');
+
+    return this.user.role;
   }
 }
 
