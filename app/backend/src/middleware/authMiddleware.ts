@@ -25,13 +25,14 @@ class AuthMiddleware {
     const decoded = this._decodedToken.decoderToken(token);
 
     if (!decoded) res.status(401).json({ message: 'Invalid token' });
-    const { user: { id } } = decoded as IToken;
+    const { user } = decoded as IToken;
 
+    const { id } = user;
     const loginAuth = await this._service.validateLogin(id);
 
     if (!loginAuth) return res.status(400).json({ message: 'User not found' });
 
-    req.body = loginAuth;
+    req.body = user;
 
     next();
   }
