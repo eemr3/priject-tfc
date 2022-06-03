@@ -8,6 +8,7 @@ class Token {
   createToken(user: object | null) {
     this.secretKey = readFileSync('./jwt.evaluation.key', { encoding: 'utf-8' });
     this.token = sign({ user }, this.secretKey, {
+      expiresIn: '15d',
       algorithm: 'HS256',
     });
     return this.token;
