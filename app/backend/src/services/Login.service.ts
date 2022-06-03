@@ -2,7 +2,7 @@ import { compare } from 'bcryptjs';
 import Token from '../auth/token';
 import BaseError from '../utils/errorBase';
 import User from '../database/models/user';
-import TUser from './type.login';
+import TUser from './types/type.login';
 
 class Login {
   private user: TUser | null;
