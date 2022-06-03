@@ -1,10 +1,11 @@
 import * as express from 'express';
 import Routes from './routes/Routes';
+import Teams from './services/Team.service';
 
 class App {
   public app: express.Express;
   public routers = new Routes();
-
+  private teams = new Teams();
   constructor() {
     this.app = express();
     this.config();
@@ -19,8 +20,8 @@ class App {
     };
     this.app.use(express.json());
     this.app.use(accessControl);
-
     this.routers.login(this.app);
+    this.routers.teams(this.app);
   }
 
   public start(PORT: string | number): void {
