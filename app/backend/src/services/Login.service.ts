@@ -1,4 +1,4 @@
-import { compare } from 'bcrypt';
+import { compare } from 'bcryptjs';
 import Token from '../auth/token';
 import BaseError from '../utils/errorBase';
 import User from '../database/models/user';
