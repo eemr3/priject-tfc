@@ -36,6 +36,11 @@ class Routes {
 
   matches(app: express.Application) {
     app.get('/matches', (req, res) => this._controllerMatches.getAll(req, res));
+    app.post(
+      '/matches',
+      (req, res, next) => this._auth.validate(req, res, next),
+      (req, res) => this._controllerMatches.createMatche(req, res),
+    );
   }
 }
 
