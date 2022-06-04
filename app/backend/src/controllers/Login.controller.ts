@@ -2,16 +2,18 @@ import { Request, Response } from 'express';
 import CustonError from '../utils/errorBase';
 import Login from '../services/Login.service';
 
-interface IRole {
-  id: number;
-  username: string;
-  role: string;
-  email: string;
-
+interface RequestWithUserRole extends Request {
+  data?: {
+    id: number;
+    username: string;
+    role: string;
+    email: string;
+  };
 }
+
 class LoginController {
   private _service = new Login();
-  private _user: IRole;
+  private _user: string;
 
   async loginApp(req: Request, res: Response) {
     const { email, password } = req.body;
@@ -26,10 +28,11 @@ class LoginController {
     }
   }
 
-  validateLogin(req: Request, res: Response) {
+  validateLogin(req: RequestWithUserRole, res: Response) {
     try {
-      this._user = req.body;
-      return res.status(200).send(this._user.role);
+      this._user = 'oi';
+      const userRole = req.data?.role;
+      return res.status(200).send(userRole);
     } catch (error) {
       console.log(error);
     }
