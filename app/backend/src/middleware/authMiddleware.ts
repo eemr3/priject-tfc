@@ -11,12 +11,19 @@ interface IToken {
   };
   iat: number;
 }
-
+interface RequestWithUserRole extends Request {
+  data?: {
+    id: number;
+    username: string;
+    role: string;
+    email: string;
+  };
+}
 class AuthMiddleware {
   private _decodedToken = new Token();
   private _service = new Login();
 
-  async validate(req: Request, res: Response, next: NextFunction) {
+  async validate(req: RequestWithUserRole, res: Response, next: NextFunction) {
     const { authorization } = req.headers;
     const token = authorization;
 
@@ -32,7 +39,7 @@ class AuthMiddleware {
 
     if (!loginAuth) return res.status(400).json({ message: 'User not found' });
 
-    req.body = user;
+    req.data = user;
 
     next();
   }
