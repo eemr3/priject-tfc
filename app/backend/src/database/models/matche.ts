@@ -22,6 +22,7 @@ Matche.init(
     homeTeam: {
       type: INTEGER,
       allowNull: false,
+      primaryKey: true,
     },
     homeTeamGoals: {
       type: INTEGER,
