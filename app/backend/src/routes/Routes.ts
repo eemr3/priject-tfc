@@ -4,10 +4,13 @@ import ValidateJoi from '../middleware/validateJoiSchemas';
 import JoiSchemas from '../schemas/joiSchemas';
 import LoginController from '../controllers/Login.controller';
 import TeamController from '../controllers/Team.controller';
+import MatcheController from '../controllers/Matche.controller';
 
 class Routes {
   private _controllerLogin = new LoginController();
   private _controllerTeams = new TeamController();
+  private _controllerMatches = new MatcheController();
+
   private _joiSchemas = new JoiSchemas();
   private _validate = new ValidateJoi();
   private _auth = new AuthMiddleware();
@@ -29,6 +32,10 @@ class Routes {
   teams(app: express.Application) {
     app.get('/teams/:id', (req, res) => this._controllerTeams.getById(req, res));
     app.get('/teams', (req, res) => this._controllerTeams.getAll(req, res));
+  }
+
+  matches(app: express.Application) {
+    app.get('/matches', (req, res) => this._controllerMatches.getAll(req, res));
   }
 }
 
