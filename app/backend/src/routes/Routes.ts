@@ -5,11 +5,13 @@ import JoiSchemas from '../schemas/joiSchemas';
 import LoginController from '../controllers/Login.controller';
 import TeamController from '../controllers/Team.controller';
 import MatcheController from '../controllers/Matche.controller';
+import MatchesMeddleware from '../middleware/matchesMeddleware';
 
 class Routes {
   private _controllerLogin = new LoginController();
   private _controllerTeams = new TeamController();
   private _controllerMatches = new MatcheController();
+  private _matchesEqualTeams = new MatchesMeddleware();
 
   private _joiSchemas = new JoiSchemas();
   private _validate = new ValidateJoi();
@@ -39,7 +41,12 @@ class Routes {
     app.post(
       '/matches',
       (req, res, next) => this._auth.validate(req, res, next),
+      (req, res, next) => this._matchesEqualTeams.validateEqualTeams(req, res, next),
       (req, res) => this._controllerMatches.createMatche(req, res),
+    );
+    app.patch(
+      '/matches/:id/finish',
+      (req, res) => this._controllerMatches.updateInProgress(req, res),
     );
   }
 }
