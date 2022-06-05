@@ -1,10 +1,12 @@
 import Team from '../database/models/team';
 import Matche from '../database/models/matche';
 import TMatche from './types/type.matche';
+import BaseError from '../utils/errorBase';
 
 class MatcheService {
   private _matches: Matche[];
   private _matche: Matche;
+  private _errorMessage: 'Matche not found';
   private _resultIP: [number, Matche[]];
 
   async getAll(inProgress: boolean) {
@@ -44,6 +46,15 @@ class MatcheService {
     this._resultIP = await Matche.update({ inProgress: false }, { where: { id } });
 
     return false;
+  }
+
+  async updateMatches(id: number, homeTeamGoals: string, awayTeamGoals: string) {
+    const matcheExist = await Matche.findOne({ where: { id } });
+    if (!matcheExist) throw new BaseError(400, this._errorMessage);
+
+    await Matche.update({ homeTeamGoals, awayTeamGoals }, { where: { id } });
+
+    return { message: 'Match auterated successfully' };
   }
 }
 
