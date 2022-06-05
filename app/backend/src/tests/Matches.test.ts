@@ -13,6 +13,7 @@ import {
   matchesMock,
   matcheMockQueryTrue,
   matcheMockQueryFalse,
+  createMock,
 } from './mocks/matcheMock';
 
 chai.use(chaiHttp);
@@ -89,6 +90,67 @@ describe('Matche Rota', () => {
         for (let index = 0; index < matcheMockQueryTrue.length; index++) {
           expect(chaiHttpResponse.body[index].inProgress).to.deep.equal(false);
         }
+      });
+    });
+
+    describe('cadastrando um novo jogo', () => {
+      before(async () => {
+        sinon.stub(Matche, 'create').resolves(createMock as Matche);
+      });
+
+      after(() => {
+        (Matche.create as sinon.SinonStub).restore();
+      });
+
+      it('cadastrando um novo jogo com sucesso', async () => {
+        chaiHttpResponse = await chai
+          .request(app)
+          .post('/matches')
+          .set(
+            'authorization',
+            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxLCJ1c2VybmFtZSI6IkFkbWluIiwicm9sZSI6ImFkbWluIiwiZW1haWwiOiJhZG1pbkBhZG1pbi5jb20ifSwiaWF0IjoxNjU0MzY5NzIyLCJleHAiOjE2NTU2NjU3MjJ9.QQ1ZObLEaElPxuF9cHPn_t0vXb_VyKFyBwo29lRVIGw',
+          )
+          .send({
+            homeTeam: 16,
+            awayTeam: 8,
+            homeTeamGoals: 2,
+            awayTeamGoals: 2,
+            inProgress: true,
+          });
+
+        expect(chaiHttpResponse.status).to.be.equal(201);
+        expect(chaiHttpResponse.body).to.have.property('id');
+        expect(chaiHttpResponse.body).to.have.property('homeTeam');
+        expect(chaiHttpResponse.body).to.have.property('awayTeam');
+        expect(chaiHttpResponse.body).to.have.property('homeTeamGoals');
+        expect(chaiHttpResponse.body).to.have.property('awayTeamGoals');
+        expect(chaiHttpResponse.body).to.have.property('inProgress');
+      });
+    });
+
+    describe('atualiza partidas', () => {
+      before(async () => {
+        sinon.stub(Matche, 'update').resolves();
+      });
+
+      after(() => {
+        (Matche.update as sinon.SinonStub).restore();
+      });
+
+      it('testa rota update de inProgress /matches/:id/finish', async () => {
+        chaiHttpResponse = await chai.request(app).patch('/matches/1/finish');
+
+        expect(chaiHttpResponse.status).to.be.equal(200);
+      });
+
+      it('resta rota update de match /matches/:id', async () => {
+        chaiHttpResponse = await chai.request(app).patch('/matches/1').send({
+          homeTeamGoals: 3,
+          awayTeamGoals: 1,
+        });
+        
+        expect(chaiHttpResponse.status).to.be.equal(200);
+        expect(chaiHttpResponse.body.message).to.be.equal('Match auterated successfully');
       });
     });
   });
