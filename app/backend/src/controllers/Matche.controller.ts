@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import BaseError from '../utils/errorBase';
 import MatcheService from '../services/Matche.service';
 
 class MatcheController {
@@ -16,7 +17,6 @@ class MatcheController {
     const {
       homeTeam, awayTeam, homeTeamGoals, awayTeamGoals,
       inProgress } = req.body;
-    console.log(req.body);
     const matche = await this._service.createMatche({
       homeTeam,
       awayTeam,
@@ -33,6 +33,18 @@ class MatcheController {
     await this._service.updateInProgress(Number(id));
 
     return res.status(200).json({ message: 'Finished' });
+  }
+
+  async updateMathce(req: Request, res: Response) {
+    try {
+      const { id } = req.params;
+      const { homeTeamGoals, awayTeamGoals } = req.body;
+      const result = await this._service.updateMatches(Number(id), homeTeamGoals, awayTeamGoals);
+
+      return res.status(200).json(result);
+    } catch (error) {
+      return res.status((error as BaseError).status).json({ message: (error as Error).message });
+    }
   }
 }
 

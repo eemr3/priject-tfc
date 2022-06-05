@@ -37,16 +37,17 @@ class Routes {
   }
 
   matches(app: express.Application) {
+    app.patch(
+      '/matches/:id/finish',
+      (req, res) => this._controllerMatches.updateInProgress(req, res),
+    );
+    app.patch('/matches/:id', (req, res) => this._controllerMatches.updateMathce(req, res));
     app.get('/matches', (req, res) => this._controllerMatches.getAll(req, res));
     app.post(
       '/matches',
       (req, res, next) => this._auth.validate(req, res, next),
       (req, res, next) => this._matchesEqualTeams.validateEqualTeams(req, res, next),
       (req, res) => this._controllerMatches.createMatche(req, res),
-    );
-    app.patch(
-      '/matches/:id/finish',
-      (req, res) => this._controllerMatches.updateInProgress(req, res),
     );
   }
 }
