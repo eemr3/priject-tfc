@@ -27,6 +27,13 @@ class MatcheController {
 
     return res.status(201).json(matche);
   }
+
+  async updateInProgress(req: Request, res: Response) {
+    const { id } = req.params;
+    await this._service.updateInProgress(Number(id));
+
+    return res.status(200).json({ message: 'Finished' });
+  }
 }
 
 export default MatcheController;
