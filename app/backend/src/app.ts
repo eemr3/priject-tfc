@@ -22,6 +22,7 @@ class App {
     this.routers.login(this.app);
     this.routers.teams(this.app);
     this.routers.matches(this.app);
+    this.routers.leaderboard(this.app);
   }
 
   public start(PORT: string | number): void {
