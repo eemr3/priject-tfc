@@ -6,13 +6,14 @@ import LoginController from '../controllers/Login.controller';
 import TeamController from '../controllers/Team.controller';
 import MatcheController from '../controllers/Matche.controller';
 import MatchesMeddleware from '../middleware/matchesMeddleware';
+import Leaderboard from '../controllers/Leaderboard.controller';
 
 class Routes {
   private _controllerLogin = new LoginController();
   private _controllerTeams = new TeamController();
   private _controllerMatches = new MatcheController();
   private _matchesEqualTeams = new MatchesMeddleware();
-
+  private _controllerLeaderboard = new Leaderboard();
   private _joiSchemas = new JoiSchemas();
   private _validate = new ValidateJoi();
   private _auth = new AuthMiddleware();
@@ -49,6 +50,10 @@ class Routes {
       (req, res, next) => this._matchesEqualTeams.validateEqualTeams(req, res, next),
       (req, res) => this._controllerMatches.createMatche(req, res),
     );
+  }
+
+  leaderboard(app: express.Application) {
+    app.get('/leaderboard/home', (req, res) => this._controllerLeaderboard.getAllHome(req, res));
   }
 }
 
