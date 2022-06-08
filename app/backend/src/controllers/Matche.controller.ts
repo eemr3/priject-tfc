@@ -4,11 +4,10 @@ import MatcheService from '../services/Matche.service';
 
 class MatcheController {
   private _service = new MatcheService();
-  private _inprogress: boolean;
   async getAll(req: Request, res: Response) {
     const { inProgress } = req.query;
-    this._inprogress = inProgress === 'true';
-    const matches = await this._service.getAll(this._inprogress);
+
+    const matches = await this._service.getAll(inProgress as string);
 
     return res.status(200).json(matches);
   }
