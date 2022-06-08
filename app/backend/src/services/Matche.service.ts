@@ -9,10 +9,10 @@ class MatcheService {
   private _errorMessage: 'Matche not found';
   private _resultIP: [number, Matche[]];
 
-  async getAll(inProgress: boolean) {
-    if (inProgress) {
+  async getAll(inrogress: string) {
+    if (inrogress) {
       this._matches = await Matche.findAll({
-        where: { inProgress },
+        where: { inProgress: inrogress === 'true' },
         include: [
           { model: Team, as: 'teamHome', attributes: { exclude: ['id'] } },
           { model: Team, as: 'teamAway', attributes: { exclude: ['id'] } },
