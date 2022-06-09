@@ -11,17 +11,17 @@ class LeaderboardAll {
   private _leaderAway = new LeaderboardAway();
 
   private getTeamsMatches(home: TLedearBoard[], away: TLedearBoard[]) {
-    this._leaderBoard = home.map((Lhome: TLedearBoard) =>
-      away.reduce((acc: TLedearBoard, Laway: TLedearBoard) => {
-        if (Lhome.name === Laway.name) {
-          acc.name = Lhome.name;
-          acc.totalPoints = Lhome.totalPoints + Laway.totalPoints;
-          acc.totalGames = Lhome.totalGames + Laway.totalGames;
-          acc.totalVictories = Lhome.totalVictories + Laway.totalVictories;
-          acc.totalDraws = Lhome.totalDraws + Laway.totalDraws;
-          acc.totalLosses = Lhome.totalLosses + Laway.totalLosses;
-          acc.goalsFavor = Lhome.goalsFavor + Laway.goalsFavor;
-          acc.goalsOwn = Lhome.goalsOwn + Laway.goalsOwn;
+    this._leaderBoard = home.map((LHome: TLedearBoard) =>
+      away.reduce((acc: TLedearBoard, LAway: TLedearBoard) => {
+        if (LHome.name === LAway.name) {
+          acc.name = LHome.name;
+          acc.totalPoints = LHome.totalPoints + LAway.totalPoints;
+          acc.totalGames = LHome.totalGames + LAway.totalGames;
+          acc.totalVictories = LHome.totalVictories + LAway.totalVictories;
+          acc.totalDraws = LHome.totalDraws + LAway.totalDraws;
+          acc.totalLosses = LHome.totalLosses + LAway.totalLosses;
+          acc.goalsFavor = LHome.goalsFavor + LAway.goalsFavor;
+          acc.goalsOwn = LHome.goalsOwn + LAway.goalsOwn;
           acc.goalsBalance = acc.goalsFavor - acc.goalsOwn;
           acc.efficiency = Number((((acc.totalVictories * 3 + acc.totalDraws)
             / (acc.totalGames * 3)) * 100).toFixed(2));
