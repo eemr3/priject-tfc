@@ -1,9 +1,11 @@
-import LeaderboardSAway from './leaderAway/away.service';
-import LeaderboardHome from './leaderHome/home.service';
+import LeaderboardAway from './leaderboard/leaderAway/away.service';
+import LeaderboardHome from './leaderboard/leaderHome/home.service';
+import LeaderboardAll from './leaderboard/leaderboardAll/LeaderAll.service';
 
 class Leaderboard {
-  public awayBoard = new LeaderboardSAway();
+  public awayBoard = new LeaderboardAway();
   public homeBoard = new LeaderboardHome();
+  public leaderboardAll = new LeaderboardAll();
 }
 
 export default Leaderboard;

@@ -55,6 +55,7 @@ class Routes {
   leaderboard(app: express.Application) {
     app.get('/leaderboard/home', (req, res) => this._controllerLeaderboard.getAllHome(req, res));
     app.get('/leaderboard/away', (req, res) => this._controllerLeaderboard.getAllAway(req, res));
+    app.get('/leaderboard', (req, res) => this._controllerLeaderboard.getLeaderboardAll(req, res));
   }
 }
 

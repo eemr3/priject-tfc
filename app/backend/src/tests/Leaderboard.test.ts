@@ -48,6 +48,42 @@ describe('Leaderbord Rota', () => {
           expect(chaiHttpResponse.body[index]).to.have.property('efficiency');
         }
       });
+
+      it('retorna um array com obejotos com todas as prorpiedades', async () => {
+        chaiHttpResponse = await chai.request(app).get('/leaderboard/away');
+
+        expect(chaiHttpResponse.status).to.be.equal(200);
+        for (let index = 0; index < leaderboardMock.length; index += 1) {
+          expect(chaiHttpResponse.body[index]).to.have.property('name');
+          expect(chaiHttpResponse.body[index]).to.have.property('totalPoints');
+          expect(chaiHttpResponse.body[index]).to.have.property('totalGames');
+          expect(chaiHttpResponse.body[index]).to.have.property('totalVictories');
+          expect(chaiHttpResponse.body[index]).to.have.property('totalDraws');
+          expect(chaiHttpResponse.body[index]).to.have.property('totalLosses');
+          expect(chaiHttpResponse.body[index]).to.have.property('goalsFavor');
+          expect(chaiHttpResponse.body[index]).to.have.property('goalsOwn');
+          expect(chaiHttpResponse.body[index]).to.have.property('goalsBalance');
+          expect(chaiHttpResponse.body[index]).to.have.property('efficiency');
+        }
+      });
+
+      it('retorna um array com obejotos com todas as prorpiedades', async () => {
+        chaiHttpResponse = await chai.request(app).get('/leaderboard');
+
+        expect(chaiHttpResponse.status).to.be.equal(200);
+        for (let index = 0; index < leaderboardMock.length; index += 1) {
+          expect(chaiHttpResponse.body[index]).to.have.property('name');
+          expect(chaiHttpResponse.body[index]).to.have.property('totalPoints');
+          expect(chaiHttpResponse.body[index]).to.have.property('totalGames');
+          expect(chaiHttpResponse.body[index]).to.have.property('totalVictories');
+          expect(chaiHttpResponse.body[index]).to.have.property('totalDraws');
+          expect(chaiHttpResponse.body[index]).to.have.property('totalLosses');
+          expect(chaiHttpResponse.body[index]).to.have.property('goalsFavor');
+          expect(chaiHttpResponse.body[index]).to.have.property('goalsOwn');
+          expect(chaiHttpResponse.body[index]).to.have.property('goalsBalance');
+          expect(chaiHttpResponse.body[index]).to.have.property('efficiency');
+        }
+      });
     });
   });
 });
